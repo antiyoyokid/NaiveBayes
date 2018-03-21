@@ -41,7 +41,7 @@ static std::vector <std::vector<int>> ImageReader(std::string file) {
             pixelData.push_back(1);
         }
         if (current == '+') {
-            pixelData.push_back(2);
+            pixelData.push_back(1);
         }
 
         if (pixelData.size() == 784) {
