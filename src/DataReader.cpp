@@ -7,51 +7,66 @@
 #include<fstream>
 #include<string>
 #include <limits>
+#include <vector>
 
-vector <vector<int>> DataReader::images(std::string file) {
+
+/**
+ * Function takes the data and puts it into a 2D array
+ * This 2D array has 5000 slots and each slot inside has another array with a size of 784
+ *
+ * @param file name
+ * @return vector<vector<int>>
+ */
+
+static std::vector <std::vector<int>> ImageReader(std::string file) {
     std::ifstream imageData;
-    imageData.open(file);
+    imageData.open(file); //opens the file and reads the data
 
-    vector <vector<int>> images;
+    /*
+     * Declaring some names
+     */
+    std::vector <std::vector<int>> images;
     char current;
-    vector<int> image;
+    std::vector<int> pixelData;
+
 
     while (imageData.get(current)) {
         if (current == '\n') {
             continue;
         }
         if (current == ' ') {
-            image.push_back(0);
+            pixelData.push_back(0);
         }
         if (current == '#') {
-            image.push_back(1);
+            pixelData.push_back(1);
         }
         if (current == '+') {
-            image.push_back(2);
+            pixelData.push_back(2);
         }
 
-        if (image.size() == 784) {
-            images.push_back(image);
-            image.clear;
+        if (pixelData.size() == 784) {
+            images.push_back(pixelData);
+            pixelData.clear;
         }
     }
     return images;
 
 }
 
-vector<int> DataReader::label(std::string file) {
+
+std::vector<int> labelReader(std::string file) {
     std::ifstream labels;
     labels.open(file);
     char current;
-    vector<int> label;
+    std::vector<int> label;
 
-    while (imageData.get(current)) {
+    while (labels.get(current)) {
         if (current != '\n') {
             int num = (int) current;
             label.push_back(num);
         }
-
     }
+    return label;
 }
 
 
