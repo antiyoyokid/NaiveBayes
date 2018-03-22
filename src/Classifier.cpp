@@ -23,17 +23,23 @@
 
 
 
-double probabilityCalculator(){
+double probabilityCalculator() {
     std::vector<std::vector<int>> Images = ImageReader("FilePath");
-    std::map<int,double> posteriorProbability;
-    for(int i; i < Images.size(); i++){   //goes into each image
-        for(int j; j < Images.at(0).size(); j++){
-            if(Images.at(i).at(j) == 1){
+    double posteriorProbabilityPixel = 0;
+    double posteriorProbabilityClass[Images.size()][10];
+    for (int i = 0; i < Images.size(); i++) {   //goes into each image
+        for (int p = 0; p < 10; p++) { //class
+            for (int j = 0; j < Images.at(0).size(); j++) {  //pixel
+                if (Images.at(i).at(j) == 1) {
+                    posteriorProbabilityPixel += probabilityMatrix[p][j];
+                } else if (Images.at(i).at(j) == 0) {
+                    posteriorProbabilityPixel += 1 - probabilityMatrix[p][j];
+                }
 
             }
+            posteriorProbabilityClass[i][p] = posteriorProbabilityPixel;
+            posteriorProbabilityPixel = 0;
         }
-
-
 
     }
 }
