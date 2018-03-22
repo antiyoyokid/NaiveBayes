@@ -4,6 +4,8 @@
 
 #include "ProbabilityCalculator.h"
 #include "DataReader.cpp"
+#include <iostream>
+#include <
 
 /**
  *First I would want to look at the label and then calculate the probability.So there would be 10
@@ -14,51 +16,35 @@
  */
 std::vector<std::vector<int>> pixelData = ImageReader("testimages");
 std::vector<int> label = labelReader("traininglabels");
+double probabilityMatrix[10][784];
 
 double foregroundCount(int, int);
 
 int totalImagesInClass(int);
 
 
-// this should technically return a vector right?
+/**
+ *
+ * @return the vector with everytihng in it
+ */
 std::vector<int> probabilityForeground() {
     for (int i = 0; i < 10; i++) {
         for (int j = 0; j < 784; j++) {
+
             double numberOfRepitions = foregroundCount(i, j);
             int totalRepitionsInClass = totalImagesInClass(i);
             int k = 3;
             double probabilityForBlackPixel =
-                    (k + numberOfRepitions) / (2k + totalRepitionsInClass); //probability for finding black pixel
-            double probabilityForWhitePixel = 1 - probabilityForBlackPixel;
+                    (k + numberOfRepitions) / (2k + totalRepitionsInClass); //probability for finding black pixel at a certain spot
+            probabilityMatrix[i][j] = probabilityForBlackPixel;
         }
     }
-
 }
-
-double probabilityOfEachClass() {
-
-
-    }
-
-
-}
-
-int totalImagesInClass(int numberClass) {
-    int count = 0;
-    for (int i = 0; i < label.size(); i++) {
-        if (numberClass == label.at(i)) {
-            count++;
-        }
-    }
-    return count;
-}
-
 
 /**
- *
  * @param numberClass
  * @param pixelNumber
- * @return the number of times a single pixel appears when given a number class.
+ * @return the number of times a single pixel appears black when given a number class.
  */
 double foregroundCount(int numberClass, int pixelNumber) {
     int count = 0;
@@ -76,17 +62,31 @@ double foregroundCount(int numberClass, int pixelNumber) {
     return count;
 }
 
+double probabilityOfEachClass(int numberClass) {
+    double probabilityofClass = totalImagesInClass(numberClass) / label.size();
+    return probabilityofClass;
+}
 
-double backgroundCount(int numberClass) {
+
+int totalImagesInClass(int numberClass) {
     int count = 0;
     for (int i = 0; i < label.size(); i++) {
-        for (int j = 0; j <= 784; j++) {
-            if (label.at(i) == numberClass) {
-                if (pixelData.at(i).at(j) == 0) {
-                    count++;
-                }
-            }
+        if (numberClass == label.at(i)) {
+            count++;
         }
     }
     return count;
+}
+
+
+
+
+void saveToFile(int[10][784]){
+
+
+}
+
+int main(){
+
+
 }
