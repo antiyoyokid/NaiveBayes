@@ -21,9 +21,9 @@
  * @return vector<vector<int>>
  */
 
-double probabilityCalculator() {
-    std::vector<std::vector<int>> Images = ImageReader("testimages.txt");
-    double posteriorProbabilityPixel = 0;
+double probabilityCalculator(int probabilityMatrix[10][784]) {
+    std::vector<std::vector<int>> Images = ImageReader("testimages.txt"); //reads the images that need to be classified
+    double posteriorProbabilityPixel = 0; //
     double posteriorProbabilityClass[Images.size()][10];
     for (int i = 0; i < Images.size(); i++) {   //goes into each image
         for (int p = 0; p < 10; p++) { //class
@@ -39,4 +39,6 @@ double probabilityCalculator() {
         }
     }
 }
+
+
 

@@ -20,6 +20,8 @@
 std::vector<std::vector<int>> pixelData = ImageReader("testimages");
 std::vector<int> label = labelReader("traininglabels");
 double probabilityMatrix[10][784];
+std::vector<std::vector<double> > probabilityVector;
+double** setupHMM(std::vector<std::vector<double> > &vals, int N, int M);
 
 double foregroundCount(int, int);
 
