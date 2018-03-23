@@ -3,33 +3,28 @@
 //
 
 #include "DataReader.h"
-#include<iostream>
-#include<fstream>
-#include<string>
-#include <limits>
-#include <vector>
-
 
 /**
  * Function takes the data and puts it into a 2D array
  * This 2D array has 5000 slots and each slot inside has another array with a size of 784
  *
  * @param file name
- * @return vector<vector<int>>
+ * @return vector<vector<int>> which are the images
  */
 
-static std::vector <std::vector<int>> ImageReader(std::string file) {
+
+static std::vector<std::vector<int>> ImageReader(std::string file) {
     std::ifstream imageData;
     imageData.open(file); //opens the file and reads the data
 
     /*
      * Declaring some names
      */
-    std::vector <std::vector<int>> images;
+    std::vector<std::vector<int>> images;
     char current;
     std::vector<int> pixelData;
 
-
+    //converting the entire image into 1s and 0s to make it easy to process
     while (imageData.get(current)) {
         if (current == '\n') {
             continue;
@@ -46,15 +41,13 @@ static std::vector <std::vector<int>> ImageReader(std::string file) {
 
         if (pixelData.size() == 784) {
             images.push_back(pixelData);
-            pixelData.clear;
+            pixelData.clear();
         }
     }
     return images;
-
 }
 
-
-std::vector<int> labelReader(std::string file) {
+std::vector<int> numberReader(std::string file) {
     std::ifstream labels;
     labels.open(file);
     char current;

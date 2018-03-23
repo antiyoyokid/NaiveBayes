@@ -21,10 +21,8 @@
  * @return vector<vector<int>>
  */
 
-
-
 double probabilityCalculator() {
-    std::vector<std::vector<int>> Images = ImageReader("FilePath");
+    std::vector<std::vector<int>> Images = ImageReader("testimages.txt");
     double posteriorProbabilityPixel = 0;
     double posteriorProbabilityClass[Images.size()][10];
     for (int i = 0; i < Images.size(); i++) {   //goes into each image
@@ -35,12 +33,10 @@ double probabilityCalculator() {
                 } else if (Images.at(i).at(j) == 0) {
                     posteriorProbabilityPixel += 1 - probabilityMatrix[p][j];
                 }
-
             }
             posteriorProbabilityClass[i][p] = posteriorProbabilityPixel;
-            posteriorProbabilityPixel = 0;
+            posteriorProbabilityPixel = 0; //reset the sum;
         }
-
     }
 }
 

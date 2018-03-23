@@ -1,42 +1,23 @@
 //
 // Created by aishi on 3/20/2018.
 //
-
+#include <unistd.h>
 #include "ProbabilityCalculator.h"
-#include "DataReader.cpp"
-#include <iostream>
-#include <
 
 /**
- *First I would want to look at the label and then calculate the probability.So there would be 10
- * from 0-9. But then there's another problem. An image can either be 0 or 1. Then how does that part even work. Like do I add the two?
- * To do this I need -the total number of images with a specific label
- *
- * @return
+ * @return returns an array with the probability of finding a black pixel
  */
-std::vector<std::vector<int>> pixelData = ImageReader("testimages");
-std::vector<int> label = labelReader("traininglabels");
-double probabilityMatrix[10][784];
+void probabilityForeground() {
+    for (int i = 0; i < 10; i++) {  //loops through the numberClasses
+        for (int j = 0; j < 784; j++) {  // loops through the pixels
 
-double foregroundCount(int, int);
-
-int totalImagesInClass(int);
-
-
-/**
- *
- * @return the vector with everytihng in it
- */
-std::vector<int> probabilityForeground() {
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 784; j++) {
-
-            double numberOfRepitions = foregroundCount(i, j);
-            int totalRepitionsInClass = totalImagesInClass(i);
-            int k = 3;
+            double numberOfRepetition = foregroundCount(i, j); //# colored pixels at a pixel of each image in same class
+            int totalRepetionsInClass = countImagesInClass(i); //# of times a class repeats itself in testingimages
+            int k = 3; //Laplace number
             double probabilityForBlackPixel =
-                    (k + numberOfRepitions) / (2k + totalRepitionsInClass); //probability for finding black pixel at a certain spot
-            probabilityMatrix[i][j] = probabilityForBlackPixel;
+                    (k + numberOfRepetition) /
+                    (2 * k + totalRepetionsInClass); //probability for finding black pixel at a certain spot
+            probabilityMatrix[i][j] = probabilityForBlackPixel; //structure is [class][pixelNumber] = probability
         }
     }
 }
@@ -57,18 +38,26 @@ double foregroundCount(int numberClass, int pixelNumber) {
                 }
             }
         }
-
     }
     return count;
 }
 
-double probabilityOfEachClass(int numberClass) {
-    double probabilityofClass = totalImagesInClass(numberClass) / label.size();
+/**
+ *
+ * @param numberClass
+ * @return number of times an image appears relative to the entire size of testLabel.
+ */
+double calculateProbabilityOfClass(int numberClass) {
+    double probabilityofClass = countImagesInClass(numberClass) / label.size();
     return probabilityofClass;
 }
 
-
-int totalImagesInClass(int numberClass) {
+/**
+ *
+ * @param numberClass
+ * @return the number of times a numberClass appears in the testingLabel file
+ */
+int countImagesInClass(int numberClass) {
     int count = 0;
     for (int i = 0; i < label.size(); i++) {
         if (numberClass == label.at(i)) {
@@ -78,15 +67,22 @@ int totalImagesInClass(int numberClass) {
     return count;
 }
 
+/**
+ * prints out the matrix to a text file
+ * @param matrix - this is the probabilityMatrix
+ *
+ */
+void saveToFile(int matrix[10][784]) {
 
-
-
-void saveToFile(int[10][784]){
-
-
+    std::ofstream myfile;
+    myfile.open("model.txt");
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 784; j++) {
+            myfile << matrix[i][j];
+        }
+    }
+    myfile.close();
+    system("pause");
 }
 
-int main(){
 
-
-}
