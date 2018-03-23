@@ -47,6 +47,11 @@ static std::vector<std::vector<int>> ImageReader(std::string file) {
     return images;
 }
 
+/**
+ *
+ * @param file - the file to read the label from
+ * @return a vector of the labels
+ */
 std::vector<int> numberReader(std::string file) {
     std::ifstream labels;
     labels.open(file);
