@@ -11,21 +11,18 @@
 #include <unistd.h>
 #include <string>
 
+std::vector<std::vector<int>> pixelData = ImageReader("testimages.txt");
+std::vector<int> label = labelReader("traininglabels.txt");
 
-/**
- *First I would want to look at the label and then calculate the probability.So there would be 10
- * from 0-9. But then there's another problem. An image can either be 0 or 1. Then how does that part even work. Like do I add the two?
- * To do this I need -the total number of images with a specific label
- *
- * @return
- */
-std::vector<std::vector<int>> pixelData = ImageReader("testimages");
-std::vector<int> label = labelReader("traininglabels");
-double probabilityMatrix[10][784];
+double probabilityMatrix[NUM_CLASS][NUM_PIXELS];
 std::vector<std::vector<double> > probabilityVector;
+/*
+ * functions
+ */
+double **setupHMM(std::vector<std::vector<double> > &vals, int N, int M);
 
-double** setupHMM(std::vector<std::vector<double> > &vals, int N, int M);
 double foregroundCount(int, int);
-int countImagesInClass(int);
+
+int countImagesInClass(int numberClass, std::vector<int> numbersList);
 
 #endif //NAIVEBAYES_PROBABILITYCALCULATOR_H

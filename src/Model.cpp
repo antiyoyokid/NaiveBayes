@@ -9,16 +9,16 @@
  * @return returns an array with the probability of finding a black pixel
  *
  */
-void probabilityForeground() {
-    for (int i = 0; i < 10; i++) {  //loops through the numberClasses
-        for (int j = 0; j < 784; j++) {  // loops through the pixels
+void createModel() {
+    for (int i = 0; i < NUM_CLASS; i++) {  //loops through the numberClasses
+        for (int j = 0; j < NUM_PIXELS; j++) {  // loops through the pixels
 
             double numberOfRepetition = foregroundCount(i, j); //# colored pixels at a pixel of each image in same class
-            int totalRepetionsInClass = countImagesInClass(i); //# of times a class repeats itself in testingimages
-            int k = 3; //Laplace number
+            int totalRepetitionsInClass = countImagesInClass(i, label); //# of times a class repeats itself in testingimages
+            int k = 1; //Laplace number
             double probabilityForBlackPixel =
                     (k + numberOfRepetition) /
-                    (2 * k + totalRepetionsInClass); //probability for finding black pixel at a certain spot
+                    (2 * k + totalRepetitionsInClass); //probability for finding black pixel at a certain spot
             probabilityMatrix[i][j] = probabilityForBlackPixel; //structure is [class][pixelNumber] = probability
         }
     }
@@ -28,12 +28,12 @@ void probabilityForeground() {
  * @param matrix - this is the probabilityMatrix
  *
  */
-void saveToFile(int matrix[10][784]) {
+void saveModel(int **matrix) {
 
     std::ofstream myfile;
     myfile.open("model.txt"); // creates a new file called Model.txt
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 784; j++) {
+    for (int i = 0; i < NUM_CLASS; i++) {
+        for (int j = 0; j < NUM_PIXELS; j++) {
             myfile << matrix[i][j] + "/n";
         }
     }
@@ -46,8 +46,8 @@ void saveToFile(int matrix[10][784]) {
  * @param file
  * @return file
  */
-double **readFromFile(std::string file) {
-    const int COLUMNS = 10; //gets the first 10 digits of the double
+double **readModel(std::string file) {
+    const int COLUMNS = NUM_CLASS; //gets the first 10 digits of the double
 
     std::string filename = "model.txt";
 
@@ -101,7 +101,7 @@ double foregroundCount(int numberClass, int pixelNumber) {
  * @return number of times an image appears relative to the entire size of testLabel.
  */
 double calculateProbabilityOfClass(int numberClass) {
-    double probabilityofClass = countImagesInClass(numberClass) / label.size();
+    double probabilityofClass = countImagesInClass(numberClass, label) / label.size();
     return probabilityofClass;
 }
 
@@ -110,10 +110,10 @@ double calculateProbabilityOfClass(int numberClass) {
  * @param numberClass
  * @return the number of times a numberClass appears in the testingLabel file
  */
-int countImagesInClass(int numberClass) {
+int countImagesInClass(int numberClass, std::vector<int> numbersList) {
     int count = 0;
-    for (int i = 0; i < label.size(); i++) {
-        if (numberClass == label.at(i)) {
+    for (int i = 0; i < numbersList.size(); i++) {
+        if (numberClass == numbersList.at(i)) {
             count++;
         }
     }

@@ -12,12 +12,11 @@
 #include <limits>
 #include <vector>
 #include <map>
+#include <cmath>
+#include <algorithm>
+#include "DataReader.cpp"
 std::vector<int> classifiedImages;
 std::vector<int> findMaxProb(double probClass[][10], int numberOfImages)
-
-class Classifier {
-
-};
 
 
 #endif //NAIVEBAYES_CLASSIFIER_H

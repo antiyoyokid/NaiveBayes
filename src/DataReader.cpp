@@ -13,7 +13,7 @@
  */
 
 
-static std::vector<std::vector<int>> ImageReader(std::string file) {
+ std::vector<std::vector<int>> ImageReader(std::string file) {
     std::ifstream imageData;
     imageData.open(file); //opens the file and reads the data
 
@@ -39,7 +39,7 @@ static std::vector<std::vector<int>> ImageReader(std::string file) {
             pixelData.push_back(1);
         }
 
-        if (pixelData.size() == 784) {
+        if (pixelData.size() == NUM_PIXELS) {
             images.push_back(pixelData);
             pixelData.clear();
         }
