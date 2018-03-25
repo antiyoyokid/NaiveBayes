@@ -2,6 +2,8 @@
 // Created by aishi on 3/20/2018.
 //
 
+#include <tuple>
+#include <map>
 #include "Model.h"
 
 /**
@@ -14,7 +16,8 @@ void createModel() {
         for (int j = 0; j < NUM_PIXELS; j++) {  // loops through the pixels
 
             double numberOfRepetition = foregroundCount(i, j); //# colored pixels at a pixel of each image in same class
-            int totalRepetitionsInClass = countImagesInClass(i, label); //# of times a class repeats itself in testingimages
+            int totalRepetitionsInClass = countImagesInClass(i,
+                                                             label); //# of times a class repeats itself in testingimages
             int k = 1; //Laplace number
             double probabilityForBlackPixel =
                     (k + numberOfRepetition) /
@@ -23,12 +26,16 @@ void createModel() {
         }
     }
 }
+
+
+
+
 /**
  * prints out the matrix to a text file
  * @param matrix - this is the probabilityMatrix
  *
  */
-void saveModel(int **matrix) {
+void saveModel(int matrix[NUM_CLASS][NUM_PIXELS]) {
 
     std::ofstream myfile;
     myfile.open("model.txt"); // creates a new file called Model.txt
@@ -48,14 +55,11 @@ void saveModel(int **matrix) {
  */
 double **readModel(std::string file) {
     const int COLUMNS = NUM_CLASS; //gets the first 10 digits of the double
-
     std::string filename = "model.txt";
-
     std::ifstream ifile(filename.c_str());
 
     if (ifile.is_open()) {
         int num;
-
         std::vector<double> numbers_in_line;
 
         while (ifile >> num) {
@@ -66,7 +70,6 @@ double **readModel(std::string file) {
                 numbers_in_line.clear();
             }
         }
-
         return setupHMM(probabilityVector, 10, 784);
     } else {
         std::cerr << "There was an error opening the input file!\n";
@@ -119,7 +122,6 @@ int countImagesInClass(int numberClass, std::vector<int> numbersList) {
     }
     return count;
 }
-
 
 
 /**

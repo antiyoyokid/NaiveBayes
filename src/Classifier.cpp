@@ -14,18 +14,18 @@
  * @return vector<vector<int>>
  */
 
-void probabilityCalculator(int probabilityMatrix[NUM_CLASS][NUM_PIXELS]) {
+void calculateProbability(int **probabilityMatrix) {
     std::vector<std::vector<int>> Images = ImageReader("testimages.txt"); //reads the images that need to be classified
-    double posteriorProbabilityPixel = 0; //
-    double posteriorProbabilityClass[Images.size()][10];
-    for (int i = 0; i < Images.size(); i++) {   //goes into each image
-        for (int p = 0; p < NUM_CLASS; p++) { //class
+    double posteriorProbabilityPixel = 0;
+    double posteriorProbabilityClass[Images.size()][NUM_CLASS]; // array with format [imageNumber][numberClass]
+    for (int i = 0; i < Images.size(); i++) {   // into each image
+        for (int p = 0; p < NUM_CLASS; p++) { //into numberClass
             posteriorProbabilityPixel += log(calculateProbabilityOfClass(p));
-            for (int j = 0; j < Images.at(0).size(); j++) {  //pixel
+            for (int j = 0; j < NUM_PIXELS; j++) {  //into pixel
                 if (Images.at(i).at(j) == 1) {
                     posteriorProbabilityPixel += log(probabilityMatrix[p][j]);
                 } else if (Images.at(i).at(j) == 0) {
-                    posteriorProbabilityPixel += log(1 - probabilityMatrix[p][j]);
+                    posteriorProbabilityPixel += log(1 - probabilityMatrix[p][j]); // probability of the white pixel
                 }
             }
             posteriorProbabilityClass[i][p] = posteriorProbabilityPixel; //probability for each of the 10 classes
@@ -33,7 +33,7 @@ void probabilityCalculator(int probabilityMatrix[NUM_CLASS][NUM_PIXELS]) {
         }
 
     }
-    findMaxProb(posteriorProbabilityClass, Images.size());
+    findMaxProb(posteriorProbabilityClass, Images.size()); //finds the max of each picture
 }
 
 /**
@@ -59,11 +59,12 @@ std::vector<int> findMaxProb(double probClass[][NUM_CLASS], int numberOfImages) 
  * Getting feedback on the overall model and seeing the percentage the model got correct
  * @return percentage model got correct
  */
-double evaluationFeedback() {
+double evaluateFeedback() {
     int count = 0;
     std::vector<int> trueNumberValue = numberReader("Images.txt");
     std::vector<int> classifiedNumberValue = classifiedImages;
     int totalImages = trueNumberValue.size();
+
     for (int i = 0; i < totalImages; i++) {
         if (trueNumberValue.at(i) == classifiedNumberValue.at(i)) {
             count++;
@@ -79,34 +80,40 @@ double evaluationFeedback() {
 void confusionMatrix() {
     std::vector<int> trueNumberValue = numberReader("Images.txt");
     std::vector<int> classifiedNumberValue = classifiedImages;
-    double confusionMatrix[NUM_CLASS][NUM_CLASS];
+    double confusionMatrix[NUM_CLASS][NUM_CLASS]; //matrix that is 10 x 10;
     std::fill(confusionMatrix[NUM_CLASS], confusionMatrix[NUM_CLASS], 0); // fills all the values of the array with 0.
+
     for (int i = 0; i < trueNumberValue.size(); i++) {
         for (int j = 0; j < trueNumberValue.size(); j++) {
             if (trueNumberValue.at(i) == classifiedNumberValue.at(j) && i == j) {
                 confusionMatrix[i][j]++;
-                if (trueNumberValue.at(i) != classifiedNumberValue.at(j)) {
-                    confusionMatrix[i][j]++;
-                }
+            }
+            if (trueNumberValue.at(i) != classifiedNumberValue.at(j) && i == j) {
+                confusionMatrix[i][j]++;
             }
         }
-
     }
+    confusionMatrixDivider(confusionMatrix, trueNumberValue);
 }
 
-double confusionMatrixDivider(double matrix[NUM_CLASS][NUM_CLASS], std::vector<int> values){
 
+/**
+ * Here I divide, the matrix with the number of times the same numberClass appears in the
+ * @param matrix
+ * @param values
+ * @return
+ */
+double **confusionMatrixDivider(double matrix[NUM_CLASS][NUM_CLASS], std::vector<int> values) {
     std::vector<int> trueNumberValue = numberReader("Images.txt");
-    for (int i =0; i < NUM_CLASS; i++){
+
+    for (int i = 0; i < NUM_CLASS; i++) {
         int numberOfClass = countImagesInClass(i, trueNumberValue);
-        for(int j =0; j < NUM_CLASS; j++){
-            matrix[i][j] = matrix[i][j] / numberOfClass ;
+        for (int j = 0; j < NUM_CLASS; j++) {
+            matrix[i][j] = matrix[i][j] / numberOfClass;
             numberOfClass = 0;
         }
-
     }
-    return matrix;
-
+    return reinterpret_cast<double **>(matrix);  //how DO I RETURN AN ARRAY ARRGGG
 }
 
 

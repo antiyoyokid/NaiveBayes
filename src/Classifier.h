@@ -16,7 +16,8 @@
 #include <algorithm>
 #include "DataReader.cpp"
 std::vector<int> classifiedImages;
-std::vector<int> findMaxProb(double probClass[][10], int numberOfImages)
+std::vector<int> findMaxProb(double probClass[][10], int numberOfImages);
+double** confusionMatrixDivider(double matrix[NUM_CLASS][NUM_CLASS], std::vector<int> values);
 
 
 #endif //NAIVEBAYES_CLASSIFIER_H
