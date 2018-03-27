@@ -4,7 +4,8 @@
 
 #ifndef NAIVEBAYES_MAIN_H
 #define NAIVEBAYES_MAIN_H
-
+#include "Model.cpp"
+#include "Classifier.h"
 
 class Main {
 

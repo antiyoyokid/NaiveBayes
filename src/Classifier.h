@@ -16,6 +16,7 @@
 #include <algorithm>
 #include "DataReader.cpp"
 std::vector<int> classifiedImages;
+std::vector<int> calculateProbability(double probabilityMatrix[NUM_CLASS][NUM_PIXELS]);
 std::vector<int> findMaxProb(double probClass[][10], int numberOfImages);
 double** confusionMatrixDivider(double matrix[NUM_CLASS][NUM_CLASS], std::vector<int> values);
 

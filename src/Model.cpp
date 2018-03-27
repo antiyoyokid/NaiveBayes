@@ -11,7 +11,7 @@
  * @return returns an array with the probability of finding a black pixel
  *
  */
-void createModel() {
+void *createModel() {
     for (int i = 0; i < NUM_CLASS; i++) {  //loops through the numberClasses
         for (int j = 0; j < NUM_PIXELS; j++) {  // loops through the pixels
 
@@ -24,8 +24,13 @@ void createModel() {
                     (2 * k + totalRepetitionsInClass); //probability for finding black pixel at a certain spot
             probabilityMatrix[i][j] = probabilityForBlackPixel; //structure is [class][pixelNumber] = probability
         }
+
     }
+
+    return probabilityMatrix;
 }
+
+
 
 
 
@@ -37,14 +42,14 @@ void createModel() {
  */
 void saveModel(int matrix[NUM_CLASS][NUM_PIXELS]) {
 
-    std::ofstream myfile;
-    myfile.open("model.txt"); // creates a new file called Model.txt
+    std::ofstream modelFile;
+    modelFile.open("model.txt"); // creates a new file called Model.txt
     for (int i = 0; i < NUM_CLASS; i++) {
         for (int j = 0; j < NUM_PIXELS; j++) {
-            myfile << matrix[i][j] + "/n";
+            modelFile << matrix[i][j] + "/n";
         }
     }
-    myfile.close();
+    modelFile.close();
     system("pause");
 }
 

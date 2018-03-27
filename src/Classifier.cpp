@@ -14,7 +14,7 @@
  * @return vector<vector<int>>
  */
 
-void calculateProbability(int **probabilityMatrix) {
+std::vector<int> calculateProbability(double probabilityMatrix[NUM_CLASS][NUM_PIXELS]) {
     std::vector<std::vector<int>> Images = ImageReader("testimages.txt"); //reads the images that need to be classified
     double posteriorProbabilityPixel = 0;
     double posteriorProbabilityClass[Images.size()][NUM_CLASS]; // array with format [imageNumber][numberClass]
@@ -33,7 +33,7 @@ void calculateProbability(int **probabilityMatrix) {
         }
 
     }
-    findMaxProb(posteriorProbabilityClass, Images.size()); //finds the max of each picture
+   return findMaxProb(posteriorProbabilityClass, Images.size()); //finds the max of each picture
 }
 
 /**

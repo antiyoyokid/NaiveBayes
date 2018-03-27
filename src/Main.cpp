@@ -3,10 +3,24 @@
 //
 
 #include "Main.h"
+
+
 /*
- * This is going to be the lengadary file that runs everytihng. The idea here is that this method will call the functions from the other classes.
- * The user will be able to select whether they want to run training or load a model from a file.
- * And then appropriately calculate the stuff.
- * This legendary method implies that I will have to fix the return type of a lot of my functions. This will be done later today.
- * GG
+ * Main method that calls functions from other classes
  */
+
+int main() {
+    std::string input;
+    std::cout << " Would you like to create a model? Press Y to create model or N to load or any key to exit";
+    std::cin >> input;
+    if (input == "Y") {
+        calculateProbabilityOfClass(createModel());
+    } else if (input == "N") {
+        calculateProbabilityOfClass(readModel("model.txt"));
+
+    } else {
+        exit(1);
+    }
+
+
+}

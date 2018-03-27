@@ -18,11 +18,12 @@ double probabilityMatrix[NUM_CLASS][NUM_PIXELS];
 std::vector<std::vector<double> > probabilityVector;
 /*
  * functions
+ *
  */
+
+void * createModel();
 double **setupHMM(std::vector<std::vector<double> > &vals, int N, int M);
-
 double foregroundCount(int, int);
-
 int countImagesInClass(int numberClass, std::vector<int> numbersList);
 
 #endif //NAIVEBAYES_PROBABILITYCALCULATOR_H
