@@ -15,16 +15,14 @@
 
  std::vector<std::vector<int>> ImageReader(std::string file) {
     std::ifstream imageData;
-    imageData.open(file); //opens the file and reads the data
+    imageData.open(file); // opens the file and reads the data
 
-    /*
-     * Declaring some names
-     */
+    
     std::vector<std::vector<int>> images;
     char current;
     std::vector<int> pixelData;
 
-    //converting the entire image into 1s and 0s to make it easy to process
+    // converting the entire image into 1s and 0s to make it easy to process
     while (imageData.get(current)) {
         if (current == '\n') {
             continue;

@@ -12,27 +12,24 @@
  *
  */
 void *createModel() {
-    for (int i = 0; i < NUM_CLASS; i++) {  //loops through the numberClasses
+    for (int i = 0; i < NUM_CLASS; i++) {  // loops through the numberClasses
         for (int j = 0; j < NUM_PIXELS; j++) {  // loops through the pixels
 
-            double numberOfRepetition = foregroundCount(i, j); //# colored pixels at a pixel of each image in same class
+            double numberOfRepetition = foregroundCount(i,
+                                                        j); // # colored pixels at a pixel of each image in same class
             int totalRepetitionsInClass = countImagesInClass(i,
-                                                             label); //# of times a class repeats itself in testingimages
-            int k = 1; //Laplace number
+                                                             label); // # of times a class repeats itself in testingimages
+            int k = 1; // Laplace number
             double probabilityForBlackPixel =
                     (k + numberOfRepetition) /
-                    (2 * k + totalRepetitionsInClass); //probability for finding black pixel at a certain spot
-            probabilityMatrix[i][j] = probabilityForBlackPixel; //structure is [class][pixelNumber] = probability
+                    (2 * k + totalRepetitionsInClass); // probability for finding black pixel at a certain spot
+            probabilityMatrix[i][j] = probabilityForBlackPixel; // structure is [class][pixelNumber] = probability
         }
 
     }
 
     return probabilityMatrix;
 }
-
-
-
-
 
 
 /**
@@ -56,10 +53,10 @@ void saveModel(int matrix[NUM_CLASS][NUM_PIXELS]) {
 /**
  * https://stackoverflow.com/questions/21708078/reading-in-a-data-file-and-assigning-each-column-to-individual-arrays
  * @param file
- * @return file
+ * @return 1D vector
  */
 double **readModel(std::string file) {
-    const int COLUMNS = NUM_CLASS; //gets the first 10 digits of the double
+    const int COLUMNS = NUM_CLASS; // gets the first 10 digits of the double
     std::string filename = "model.txt";
     std::ifstream ifile(filename.c_str());
 
@@ -108,8 +105,8 @@ double foregroundCount(int numberClass, int pixelNumber) {
  * @param numberClass
  * @return number of times an image appears relative to the entire size of testLabel.
  */
-double calculateProbabilityOfClass(int numberClass) {
-    double probabilityofClass = countImagesInClass(numberClass, label) / label.size();
+double calculateProbabilityOfClass(void *numberClass) {
+    double probabilityofClass = countImagesInClass(reinterpret_cast<int>(numberClass), label) / label.size();
     return probabilityofClass;
 }
 

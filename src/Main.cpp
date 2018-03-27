@@ -4,11 +4,6 @@
 
 #include "Main.h"
 
-
-/*
- * Main method that calls functions from other classes
- */
-
 int main() {
     std::string input;
     std::cout << " Would you like to create a model? Press Y to create model or N to load or any key to exit";
