@@ -33,7 +33,7 @@ std::vector<int> calculateProbability(double probabilityMatrix[NUM_CLASS][NUM_PI
         }
 
     }
-   return findMaxProb(posteriorProbabilityClass, Images.size()); //finds the max of each picture
+    return findMaxProb(posteriorProbabilityClass, Images.size()); //finds the max of each picture
 }
 
 /**
@@ -85,14 +85,16 @@ void confusionMatrix() {
 
     for (int i = 0; i < trueNumberValue.size(); i++) {
         for (int j = 0; j < trueNumberValue.size(); j++) {
+
             if (trueNumberValue.at(i) == classifiedNumberValue.at(j) && i == j) {
-                confusionMatrix[i][j]++;
+                confusionMatrix[trueNumberValue.at(i)][classifiedNumberValue.at(i)]++;
             }
             if (trueNumberValue.at(i) != classifiedNumberValue.at(j) && i == j) {
-                confusionMatrix[i][j]++;
+                confusionMatrix[trueNumberValue.at(i)][classifiedNumberValue.at(j)]++;
             }
         }
     }
+
     confusionMatrixDivider(confusionMatrix, trueNumberValue);
 }
 

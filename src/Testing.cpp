@@ -15,7 +15,6 @@ TEST_CASE("Check if the reader reads the whole file") {
     REQUIRE(numberReader("traininglabels.txt").size() == 5000);
 }
 
-
 // difficult to actually count the number
 TEST_CASE("the number 10 doesn't exist"){
     REQUIRE(foregroundCount(10,100) == 0);
