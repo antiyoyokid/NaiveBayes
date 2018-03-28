@@ -17,7 +17,7 @@
     std::ifstream imageData;
     imageData.open(file); // opens the file and reads the data
 
-    
+
     std::vector<std::vector<int>> images;
     char current;
     std::vector<int> pixelData;
